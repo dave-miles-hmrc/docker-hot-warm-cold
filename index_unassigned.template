@@ -1,0 +1,22 @@
+{
+  "index_patterns": [
+    "logstash-unassigned-*"
+  ],
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "hot-delete",
+          "rollover_alias": "logstash-unassigned"
+        },
+        "mapping": {
+          "total_fields": {
+            "limit": "3300"
+          }
+        },
+        "refresh_interval": "30s",
+        "number_of_shards": "1"
+      }
+    }
+  }
+}

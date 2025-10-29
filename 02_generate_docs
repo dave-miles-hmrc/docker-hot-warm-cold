@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -x
+
+DOCS_PER_THREAD=${DOCS_PER_THREAD:=6000}
+THREADS=${THREADS:=1}
+
+docker run \
+  -e DOCS_PER_THREAD="${DOCS_PER_THREAD}" \
+  -e THREADS="${THREADS}" \
+  --network="$(docker network ls | grep docker-hot-warm-cold_esnet | cut -d ' ' -f 1)" \
+  -v ./ls.config:/usr/share/logstash/config/docker_host/ls.config \
+  docker.elastic.co/logstash/logstash:8.17.0 \
+    bin/logstash -f config/docker_host/ls.config --pipeline.workers=1
